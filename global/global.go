@@ -19,7 +19,7 @@ type Connector interface {
 }
 
 const (
-	LOGFILE 	= "log.log"
+	LOGFILE 	= "filesync.log"
 	CONFIG 		= "config.ini"
 	BUFFERSIZE 	= 1024
 	SYMBOL 		= 70

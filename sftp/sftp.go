@@ -187,14 +187,13 @@ func (f *Sftp) UploadFile(remotePath string, fullFilePath string, offset int64) 
 	if err != nil {
 		return err
 	}
-	_, _ = fp.Seek(offset, 0)
 	defer fp.Close()
+    _, _ = fp.Seek(offset, 0)
 
+	fullRemoteFilePath = fmt.Sprintf("/%s/%s", strings.TrimLeft(remotePath, "/"),
+									filepath.Base(fullFilePath))
 	RETRY:
 		retryTimes += 1
-		fullRemoteFilePath = fmt.Sprintf("/%s/%s",
-			strings.TrimLeft(remotePath, "/"),
-			filepath.Base(fullFilePath))
 		remoteFp, err := f.Conn.OpenFile(fullRemoteFilePath, os.O_CREATE | os.O_WRONLY | os.O_APPEND)
 		if err != nil {
 			if retryTimes < Cfg.Retry {

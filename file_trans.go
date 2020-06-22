@@ -1,5 +1,6 @@
 package main
 
+
 import (
 	. "ftp_upload/config"
 	"ftp_upload/ftp"
@@ -12,14 +13,17 @@ import (
 	"time"
 )
 
+
 var err error
+
 
 type Program struct{}
 
+
 func main() {
 	svcConfig := &service.Config{
-		Name:        Cfg.ServName,                                      //服务显示名称
-		DisplayName: Cfg.ServName,                                      //服务名称
+		Name:        Cfg.ServName,             //服务显示名称
+		DisplayName: Cfg.ServName,             //服务名称
 		Description: "Upload or download file to/from ftp/sftp server", //服务描述
 	}
 
@@ -57,15 +61,18 @@ func main() {
 
 }
 
+
 func (p *Program) Start(s service.Service) error {
 	go p.Run()
 	return nil
 }
 
+
 func (p *Program) Stop(s service.Service) error {
 	Stop = true
 	return nil
 }
+
 
 func (p *Program) Run() {
 	var conn Connector
@@ -110,22 +117,24 @@ func (p *Program) Run() {
 			}
 		}
 
-	END:
-		if conn != nil {
-			err = conn.Close()
-			if err != nil {
-				Logger.E(err.Error())
+		END:
+			if conn != nil {
+				err = conn.Close()
+				if err != nil {
+					Logger.E(err.Error())
+				}
 			}
-		}
-		Logger.I("Task completed. %d file(s) were transfered. Sleeping now: %d minute(s)",
-			TotalFile, Cfg.Interval)
-		time.Sleep(time.Duration(Cfg.Interval) * time.Minute)
+
+			Logger.I("Task completed. %d file(s) were transfered. Sleeping now: %d minute(s)",
+						TotalFile, Cfg.Interval)
+			time.Sleep(time.Duration(Cfg.Interval) * time.Minute)
 	}
 }
 
+
 func GetConnector(protocol string) Connector {
-	switch {
-	case protocol == "sftp":
+	switch protocol {
+	case "sftp":
 		msftp := sftp.Sftp{nil, Cfg.Host, Cfg.User, Cfg.Passwd, Cfg.Port}
 		return &msftp
 	default:
@@ -134,6 +143,7 @@ func GetConnector(protocol string) Connector {
 	}
 	return nil
 }
+
 
 func PrintConfig(cfg *Config) {
 	Logger.I(strings.Repeat("*", SYMBOL))

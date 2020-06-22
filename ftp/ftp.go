@@ -159,18 +159,31 @@ func (f *Ftp)UploadDirectory(localPath string, remotePath string) error {
 
 func (f *Ftp) UploadFile(remotePath string, fullFilePath string, offset uint64) error {
 	var retryTimes = 0
+	var fullRemoteFilePath string
 	Logger.I("Uploading file:\t%s", fullFilePath)
 	fp, err := os.Open(fullFilePath)
 	if err != nil {
 		return err
 	}
-	fp.Seek(int64(offset), 0)
 	defer fp.Close()
+	fp.Seek(int64(offset), 0)
+
+	fullRemoteFilePath = fmt.Sprintf("/%s/%s", strings.TrimLeft(remotePath, "/"), filepath.Base(fullFilePath))
 
 	RETRY:
 		retryTimes += 1
-		err = f.Conn.StorFrom(fmt.Sprintf("/%s/%s", strings.TrimLeft(remotePath, "/"),
-			filepath.Base(fullFilePath)), fp, offset)
+		if retryTimes > 1 {
+			// 重传之前，重新获取远端文件大小。考虑到有可能传输了一部分，offset 需要更新
+			remoteFileSize, err := f.Conn.FileSize(fullRemoteFilePath)
+			if err != nil {
+				// 无法获取远端文件大小，重传整个文件
+				offset = 0
+			} else {
+				offset = uint64(remoteFileSize)
+			}
+			fp.Seek(int64(offset), 0)
+		}
+		err = f.Conn.StorFrom(fullRemoteFilePath, fp, offset)
 		if err != nil {
 			// 失败重试 N 次
 			if retryTimes < Cfg.Retry {
@@ -288,6 +301,7 @@ func (f *Ftp) DownloadFile(localPath string, fullRemoteFilePath string, offset i
 		return err
 	}
 	defer fp.Close()
+	localFileInfo, _ := fp.Stat()
 
 	// 移动指针到末尾
 	_, err = fp.Seek(0, 2)
@@ -297,6 +311,11 @@ func (f *Ftp) DownloadFile(localPath string, fullRemoteFilePath string, offset i
 
 	RETRY:
 		retryTimes += 1
+		if retryTimes > 1 {
+			// 重下载前更新 offset
+			offset = localFileInfo.Size()
+			_, err = fp.Seek(0, 2)
+		}
 		// 断点续传, 从offset 处开始接收
 		resp, err := f.Conn.RetrFrom(fullRemoteFilePath, uint64(offset))
 		if err != nil {

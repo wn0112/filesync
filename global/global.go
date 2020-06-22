@@ -41,10 +41,10 @@ func init() {
 	Logger.SetLogConsole(true)
 	err := Cfg.Load(filepath.Join(RootPath, CONFIG))
 	if err != nil {
-		Logger.E(err.Error())
 		Logger.SetMaxFileCount(5)
 		Logger.SetMaxFileSize(10, fileLogger.MB)
 		Logger.SetLogLevel(fileLogger.LEVEL(1))
+		Logger.E(err.Error())
 		Buff = make([]byte, BUFFERSIZE)
 	} else {
 		Logger.SetMaxFileCount(Cfg.LogCount)

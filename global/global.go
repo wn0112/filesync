@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-type FtpEntryList 	[]*ftp.Entry
+type FtpEntryList []*ftp.Entry
 type FileInfoList []os.FileInfo
 type Connector interface {
 	Connect() error
@@ -19,27 +19,26 @@ type Connector interface {
 }
 
 const (
-	LOGFILE 	= "filesync.log"
-	CONFIG 		= "config.ini"
-	BUFFERSIZE 	= 1024
-	SYMBOL 		= 70
-)
-var (
-	Cfg       	Config
-	RootPath  	string
-	Logger    	*fileLogger.FileLogger
-	TotalFile 	uint
-	Buff      	[]byte
-	Stop       	= false
+	CONFIG     = "config.ini"
+	BUFFERSIZE = 1024
+	SYMBOL     = 60
 )
 
+var (
+	Cfg       Config
+	RootPath  string
+	Logger    *fileLogger.FileLogger
+	TotalFile uint
+	Buff      []byte
+	Stop      = false
+)
 
 func init() {
 	self, _ := filepath.Abs(os.Args[0])
 	RootPath = filepath.Dir(self)
-	Logger = fileLogger.NewDefaultLogger(RootPath, LOGFILE)
-	Logger.SetLogConsole(true)
 	err := Cfg.Load(filepath.Join(RootPath, CONFIG))
+	Logger = fileLogger.NewDefaultLogger(RootPath, Cfg.LogFile)
+	Logger.SetLogConsole(true)
 	if err != nil {
 		Logger.SetMaxFileCount(5)
 		Logger.SetMaxFileSize(10, fileLogger.MB)
@@ -54,7 +53,6 @@ func init() {
 	}
 }
 
-
 func NotValidTime() bool {
 	var nowTime = time.Now().Format("15:04")
 	if Cfg.From < Cfg.To {
@@ -67,11 +65,9 @@ func NotValidTime() bool {
 	return false
 }
 
-
 func (s FtpEntryList) Len() int {
 	return len(s)
 }
-
 
 func (s FtpEntryList) Swap(i, j int) {
 	s[i], s[j] = s[j], s[i]
@@ -82,11 +78,9 @@ func (s FtpEntryList) Less(i, j int) bool {
 	return s[i].Time.Unix() < s[j].Time.Unix()
 }
 
-
 func (s FileInfoList) Len() int {
 	return len(s)
 }
-
 
 func (s FileInfoList) Swap(i, j int) {
 	s[i], s[j] = s[j], s[i]
@@ -96,5 +90,3 @@ func (s FileInfoList) Swap(i, j int) {
 func (s FileInfoList) Less(i, j int) bool {
 	return s[i].ModTime().Unix() < s[j].ModTime().Unix()
 }
-
-

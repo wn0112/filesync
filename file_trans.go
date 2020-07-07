@@ -1,6 +1,5 @@
 package main
 
-
 import (
 	. "ftp_upload/config"
 	"ftp_upload/ftp"
@@ -13,18 +12,15 @@ import (
 	"time"
 )
 
-
 var err error
-
 
 type Program struct{}
 
-
 func main() {
 	svcConfig := &service.Config{
-		Name:        Cfg.ServName,             //服务显示名称
-		DisplayName: Cfg.ServName,             //服务名称
-		Description: "Upload or download file to/from ftp/sftp server", //服务描述
+		Name:        Cfg.ServName,       //服务显示名称
+		DisplayName: Cfg.ServName,       //服务名称
+		Description: "ftp/sftp 数据上传/下载", //服务描述
 	}
 
 	prg := &Program{}
@@ -61,18 +57,15 @@ func main() {
 
 }
 
-
 func (p *Program) Start(s service.Service) error {
 	go p.Run()
 	return nil
 }
 
-
 func (p *Program) Stop(s service.Service) error {
 	Stop = true
 	return nil
 }
-
 
 func (p *Program) Run() {
 	var conn Connector
@@ -117,20 +110,19 @@ func (p *Program) Run() {
 			}
 		}
 
-		END:
-			if conn != nil {
-				err = conn.Close()
-				if err != nil {
-					Logger.E(err.Error())
-				}
+	END:
+		if conn != nil {
+			err = conn.Close()
+			if err != nil {
+				Logger.E(err.Error())
 			}
+		}
 
-			Logger.I("Task completed. %d file(s) were transfered. Sleeping now: %d minute(s)",
-						TotalFile, Cfg.Interval)
-			time.Sleep(time.Duration(Cfg.Interval) * time.Minute)
+		Logger.I("Task completed. %d file(s) were transfered. Sleeping now: %d minute(s)",
+			TotalFile, Cfg.Interval)
+		time.Sleep(time.Duration(Cfg.Interval) * time.Minute)
 	}
 }
-
 
 func GetConnector(protocol string) Connector {
 	switch protocol {
@@ -144,18 +136,16 @@ func GetConnector(protocol string) Connector {
 	return nil
 }
 
-
 func PrintConfig(cfg *Config) {
 	Logger.I(strings.Repeat("*", SYMBOL))
-	Logger.I("* Server:\t\t\t[ %s:%d ]", cfg.Host, cfg.Port)
-	Logger.I("* Protocol:\t\t[ %s ]", cfg.Protocol)
-	Logger.I("* Username:\t\t[ %s ]", cfg.User)
-	Logger.I("* Transfer mode:\t[ %s ]", cfg.TransMode)
-	Logger.I("* Buffer size:\t\t[ %d ]", cfg.Buffer)
-	Logger.I("* Local path:\t\t[ %s ]", cfg.Path)
-	Logger.I("* Remote path:\t\t[ %s ]", cfg.RemotePath)
-	Logger.I("* New file first:\t[ %v ]", cfg.Reverse)
-	Logger.I("* Service name:\t[ %s ]", cfg.ServName)
-	Logger.I("* Working time:\t[ %s - %s ]", cfg.From, cfg.To)
+	Logger.I("* %-18s [ %s:%d ]", "Server:", cfg.Host, cfg.Port)
+	Logger.I("* %-18s [ %s ]", "Protocol:", cfg.Protocol)
+	Logger.I("* %-18s [ %s ]", "Transfer mode:", cfg.TransMode)
+	Logger.I("* %-18s [ %s ]", "Username:", cfg.User)
+	Logger.I("* %-18s [ %d ]", "Buffer size:", cfg.Buffer)
+	Logger.I("* %-18s [ %s ]", "Local path:", cfg.Path)
+	Logger.I("* %-18s [ %s ]", "Remote path:", cfg.RemotePath)
+	Logger.I("* %-18s [ %v ]", "New file first:", cfg.Reverse)
+	Logger.I("* %-18s [ %s - %s ]", "Working time:", cfg.From, cfg.To)
 	Logger.I(strings.Repeat("*", SYMBOL))
 }

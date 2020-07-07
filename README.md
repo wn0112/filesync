@@ -4,7 +4,7 @@ Or sync remote files to local.
 
 ### config.ini
 ```ini
-[params]
+[filesync]
 protocol=ftp            # [ftp | sftp]
 host=127.0.0.1          # server address
 port=21                 # port

@@ -1,6 +1,13 @@
 # file sync tool
-Sync local files to ftp/sftp server in cycle.
+Sync local files to ftp/sftp server at regular intervals.
 Or sync remote files to localhost.
+
+Features:
+* run as Windows backend service
+* resume from break-point
+* ftp and sftp suported
+* download or upload mode 
+* work time setting
 
 ### config.ini
 ```ini

@@ -32,6 +32,7 @@ work_during=00:00-23:59 # 22:00-04:00 is also OK
 buffer=4096             # buffer size
 trans_mode=download     # [upload | download]
 ```
+## Windows:
 ### Install
 In command line:
 ```cmd

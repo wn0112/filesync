@@ -1,13 +1,23 @@
 # file sync tool
+# `文件同步工具`
 Sync local files to ftp/sftp server at regular intervals.
 Or sync remote files to localhost.
 
+`周期性地上传本地文件到远端ftp/sftp服务器，或从远端ftp/sftp下载到本地`
+
 Features:
+
+`功能`：
 * run as Windows backend service
+* `作为Windows服务后台运行`
 * resume from break-point
+* `断点续传`
 * ftp and sftp suported
-* download or upload mode 
+* `支持ftp和sftp`
+* download or upload mode
+* `上传或下载模式切换`
 * work time setting
+* `可设置工作时段`
 
 ### config.ini
 ```ini
@@ -34,12 +44,16 @@ trans_mode=download     # [upload | download]
 ```
 ## Windows:
 ### Install
+### `安装`
 In command line:
+
+`命令行下运行：`
 ```cmd
 filesync.exe install
 sc start filesync
 ```
 ### Uninstall
+### `删除`
 ```cmd
 sc stop filesync
 sc delete filesync

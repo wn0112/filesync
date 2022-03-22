@@ -1,6 +1,6 @@
 # file sync tool
 Sync local files to ftp/sftp server in cycle.
-Or sync remote files to local.
+Or sync remote files to localhost.
 
 ### config.ini
 ```ini

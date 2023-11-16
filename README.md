@@ -1,7 +1,7 @@
-# file sync tool
+# file synchronization tool
 # 文件同步工具
-Sync local files to ftp/sftp server at regular intervals.
-Or sync remote files to localhost.
+synchronize local files with ftp/sftp server.
+Or synchronize remote files with localhost.
 
 _周期性地上传本地文件到远端ftp/sftp服务器，或从远端ftp/sftp下载到本地_
 

@@ -1,6 +1,6 @@
 # file synchronization tool
 # 文件同步工具
-synchronize local files with ftp/sftp server.
+Synchronize local files with ftp/sftp server.
 Or synchronize remote files with localhost.
 
 _周期性地上传本地文件到远端ftp/sftp服务器，或从远端ftp/sftp下载到本地_
@@ -52,9 +52,15 @@ _命令行下运行_：
 filesync.exe install
 sc start filesync
 ```
+Or double click install.cmd
+
+![image](https://github.com/wn0112/filesync/assets/14155504/c4984d83-bb3d-4481-a61d-46071cf55d01)
+![image](https://github.com/wn0112/filesync/assets/14155504/76c9ba08-88c7-4460-b4c9-21cc53c16881)
+
 ### Uninstall
 ### 删除
 ```cmd
 sc stop filesync
 sc delete filesync
 ```
+Or double click uninstall.cmd

@@ -1,13 +1,11 @@
-# file synchronization tool
-# 文件同步工具
+# 文件同步工具 / File synchronization tool
 Synchronize local files with ftp/sftp server.
 Or synchronize remote files with localhost.
 
 _周期性地上传本地文件到远端ftp/sftp服务器，或从远端ftp/sftp下载到本地_
 
-Features:
 
-功能：
+### 功能/Features：
 * run as Windows backend service
 * _作为Windows服务后台运行_
 * resume from break-point
@@ -43,24 +41,21 @@ buffer=4096             # buffer size
 trans_mode=download     # [upload | download]
 ```
 ## Windows:
-### Install
-### 安装
-In command line:
+### 安装/Install
 
-_命令行下运行_：
+_命令行下运行_ / In command line：
 ```cmd
 filesync.exe install
 sc start filesync
 ```
-Or double click install.cmd
+或双击 install.cmd / Or double click install.cmd
 
 ![image](https://github.com/wn0112/filesync/assets/14155504/c4984d83-bb3d-4481-a61d-46071cf55d01)
 ![image](https://github.com/wn0112/filesync/assets/14155504/76c9ba08-88c7-4460-b4c9-21cc53c16881)
 
-### Uninstall
-### 删除
+### 删除/Uninstall
 ```cmd
 sc stop filesync
 sc delete filesync
 ```
-Or double click uninstall.cmd
+或双击 uninstall.cmd / Or double click uninstall.cmd

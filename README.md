@@ -19,7 +19,7 @@ Features:
 * work time setting
 * _可设置工作时段_
 
-### config.ini
+### configure.ini
 ```ini
 [filesync]
 protocol=ftp            # [ftp | sftp]

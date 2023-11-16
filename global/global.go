@@ -19,7 +19,7 @@ type Connector interface {
 }
 
 const (
-	CONFIG     = "config.ini"
+	CONFIG     = "configure.ini"
 	BUFFERSIZE = 1024
 	SYMBOL     = 60
 )
